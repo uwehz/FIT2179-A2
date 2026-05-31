@@ -1,0 +1,88 @@
+{
+  "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
+  "width": 380,
+  "height": 320,
+  "data": {"url": "data/motivations.csv"},
+  "layer": [
+    {
+      "mark": {
+        "type": "circle",
+        "opacity": 0.75,
+        "stroke": "#fff",
+        "strokeWidth": 1.5
+      },
+      "encoding": {
+        "x": {
+          "field": "total_pct",
+          "type": "quantitative",
+          "title": "Overall participation rate (%)",
+          "scale": {"domain": [15, 75]},
+          "axis": {"titleFontSize": 11, "labelFontSize": 10, "gridColor": "#f0f0ea"}
+        },
+        "y": {
+          "field": "age_diff",
+          "type": "quantitative",
+          "title": "Youth vs older gap (percentage points)",
+          "scale": {"domain": [-5, 50]},
+          "axis": {"titleFontSize": 11, "labelFontSize": 10, "gridColor": "#f0f0ea"}
+        },
+        "size": {
+          "field": "total_pct",
+          "type": "quantitative",
+          "scale": {"range": [100, 2000]},
+          "legend": null
+        },
+        "color": {
+          "field": "age_diff",
+          "type": "quantitative",
+          "scale": {
+            "domain": [0, 42],
+            "range": ["#a8dadc", "#e63946"]
+          },
+          "legend": {
+            "title": "Youth–older gap (pp)",
+            "orient": "top-right",
+            "gradientLength": 100,
+            "titleFontSize": 10,
+            "labelFontSize": 10
+          }
+        },
+        "tooltip": [
+          {"field": "motivation", "title": "Motivation"},
+          {"field": "total_pct", "title": "Overall (%)", "format": ".1f"},
+          {"field": "youth_pct", "title": "Youth 15-24 (%)", "format": ".1f"},
+          {"field": "older_pct", "title": "Older 55+ (%)", "format": ".1f"},
+          {"field": "age_diff", "title": "Gap (pp)", "format": ".1f"}
+        ]
+      }
+    },
+    {
+      "transform": [{"filter": "datum.motivation !== 'Weight management' && datum.motivation !== 'To be outdoors'"}],
+      "mark": {"type": "text", "fontSize": 10, "dy": -12, "color": "#444"},
+      "encoding": {
+        "x": {"field": "total_pct", "type": "quantitative"},
+        "y": {"field": "age_diff", "type": "quantitative"},
+        "text": {"field": "motivation", "type": "nominal"}
+      }
+    },
+    {
+      "transform": [{"filter": "datum.motivation === 'Weight management'"}],
+      "mark": {"type": "text", "fontSize": 10, "dy": -20, "dx": 20, "color": "#444"},
+      "encoding": {
+        "x": {"field": "total_pct", "type": "quantitative"},
+        "y": {"field": "age_diff", "type": "quantitative"},
+        "text": {"field": "motivation", "type": "nominal"}
+      }
+    },
+    {
+      "transform": [{"filter": "datum.motivation === 'To be outdoors'"}],
+      "mark": {"type": "text", "fontSize": 10, "dy": 14, "dx": -20, "color": "#444"},
+      "encoding": {
+        "x": {"field": "total_pct", "type": "quantitative"},
+        "y": {"field": "age_diff", "type": "quantitative"},
+        "text": {"field": "motivation", "type": "nominal"}
+      }
+    }
+  ],
+  "config": {"view": {"stroke": "transparent"}}
+}

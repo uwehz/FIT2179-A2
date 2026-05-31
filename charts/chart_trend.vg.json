@@ -1,0 +1,97 @@
+{
+  "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
+  "width": 360,
+  "height": 280,
+  "data": {"url": "data/guidelines_trend.csv"},
+  "transform": [
+    {"fold": ["males", "females"], "as": ["gender", "rate"]},
+    {
+      "calculate": "datum.gender === 'males' ? 'Males' : 'Females'",
+      "as": "gender_label"
+    }
+  ],
+  "layer": [
+    {
+      "mark": {"type": "line", "strokeWidth": 2.5, "point": true},
+      "encoding": {
+        "x": {
+          "field": "year",
+          "type": "ordinal",
+          "title": "Year",
+          "axis": {"labelAngle": 0, "titleFontSize": 12, "labelFontSize": 11}
+        },
+        "y": {
+          "field": "rate",
+          "type": "quantitative",
+          "title": "Met guidelines (%)",
+          "scale": {"domain": [0, 35]},
+          "axis": {"titleFontSize": 12, "labelFontSize": 11, "gridColor": "#f0f0ea"}
+        },
+        "color": {
+          "field": "gender_label",
+          "type": "nominal",
+          "scale": {
+            "domain": ["Males", "Females"],
+            "range": ["#1a6b3c", "#e63946"]
+          },
+          "legend": {
+            "title": null,
+            "labelFontSize": 11,
+            "orient": "none",
+            "legendX": 240,
+            "legendY": 5
+          }
+        },
+        "tooltip": [
+          {"field": "year", "title": "Year"},
+          {"field": "gender_label", "title": "Gender"},
+          {"field": "rate", "title": "Met guidelines (%)", "format": ".1f"}
+        ]
+      }
+    },
+    {
+      "mark": {"type": "rule", "strokeDash": [4,3], "color": "#aaa", "strokeWidth": 1},
+      "encoding": {
+        "y": {"datum": 30, "type": "quantitative"}
+      }
+    },
+    {
+      "transform": [
+        {"fold": ["males", "females"], "as": ["gender", "rate"]},
+        {"calculate": "datum.gender === 'males' ? 'Males' : 'Females'", "as": "gender_label"},
+        {"filter": "datum.year == 2022"}
+      ],
+      "mark": {"type": "text", "align": "left", "dx": 6, "fontSize": 10, "fontWeight": "bold"},
+      "encoding": {
+        "x": {"field": "year", "type": "ordinal"},
+        "y": {"field": "rate", "type": "quantitative"},
+        "text": {"field": "rate", "type": "quantitative", "format": ".1f"},
+        "color": {
+          "field": "gender_label",
+          "type": "nominal",
+          "scale": {
+            "domain": ["Males", "Females"],
+            "range": ["#1a6b3c", "#e63946"]
+          },
+          "legend": null
+        }
+      }
+    },
+    {
+      "mark": {
+        "type": "text",
+        "fontSize": 10,
+        "color": "#888",
+        "align": "right",
+        "dx": -4,
+        "dy": -8
+      },
+      "encoding": {
+        "x": {"value": 0},
+        "y": {"datum": 30, "type": "quantitative"},
+        "text": {"value": "National target: 30%"}
+      }
+    }
+  ],
+  "config": {"view": {"stroke": "transparent"}}
+}

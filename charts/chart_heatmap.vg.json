@@ -1,0 +1,72 @@
+{
+  "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
+  "width": 500,
+  "height": 380,
+  "data": {"url": "data/sports_heatmap.csv"},
+  "transform": [
+    {"fold": ["age_15_17","age_18_24","age_25_34","age_35_44","age_45_54","age_55_64","age_65plus"],
+     "as": ["age_group", "rate"]},
+    {"calculate": "{'age_15_17':'15–17','age_18_24':'18–24','age_25_34':'25–34','age_35_44':'35–44','age_45_54':'45–54','age_55_64':'55–64','age_65plus':'65+'}[datum.age_group]",
+     "as": "age_label"}
+  ],
+  "layer": [
+    {
+      "mark": {"type": "rect", "cornerRadius": 2},
+      "encoding": {
+        "x": {
+          "field": "age_label",
+          "type": "ordinal",
+          "title": "Age group",
+          "sort": ["15–17","18–24","25–34","35–44","45–54","55–64","65+"],
+          "axis": {"labelAngle": 0, "titleFontSize": 12, "labelFontSize": 11}
+        },
+        "y": {
+          "field": "sport",
+          "type": "ordinal",
+          "title": null,
+          "sort": {"field": "total", "order": "descending"},
+          "axis": {"labelFontSize": 11}
+        },
+        "color": {
+          "field": "rate",
+          "type": "quantitative",
+          "title": "Participation rate (%)",
+          "scale": {"scheme": "greens"},
+          "legend": {
+            "orient": "bottom",
+            "direction": "horizontal",
+            "gradientLength": 200,
+            "titleFontSize": 11,
+            "labelFontSize": 10
+          }
+        },
+        "tooltip": [
+          {"field": "sport", "title": "Activity"},
+          {"field": "age_label", "title": "Age group"},
+          {"field": "rate", "title": "Participation rate (%)", "format": ".1f"}
+        ]
+      }
+    },
+    {
+      "mark": {"type": "text", "fontSize": 9},
+      "encoding": {
+        "x": {
+          "field": "age_label",
+          "type": "ordinal",
+          "sort": ["15–17","18–24","25–34","35–44","45–54","55–64","65+"]
+        },
+        "y": {
+          "field": "sport",
+          "type": "ordinal",
+          "sort": {"field": "total", "order": "descending"}
+        },
+        "text": {"field": "rate", "type": "quantitative", "format": ".1f"},
+        "color": {
+          "condition": {"test": "datum.rate > 40", "value": "#ffffff"},
+          "value": "#2d5a27"
+        }
+      }
+    }
+  ],
+  "config": {"view": {"stroke": "transparent"}}
+}

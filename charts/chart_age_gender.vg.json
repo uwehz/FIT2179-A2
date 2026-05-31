@@ -1,0 +1,72 @@
+{
+  "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
+  "width": 800,
+  "height": 280,
+  "data": {"url": "data/participation_age_gender.csv"},
+  "layer": [
+    {
+      "mark": "bar",
+      "encoding": {
+        "x": {
+          "field": "age_group",
+          "type": "ordinal",
+          "title": "Age group",
+          "sort": ["15-17","18-24","25-34","35-44","45-54","55-64","65+"],
+          "axis": {"labelAngle": 0, "titleFontSize": 12, "labelFontSize": 11}
+        },
+        "xOffset": {"field": "gender", "type": "nominal"},
+        "y": {
+          "field": "participation_rate",
+          "type": "quantitative",
+          "title": "Participation rate (%)",
+          "scale": {"domain": [0, 100]},
+          "axis": {"titleFontSize": 12, "labelFontSize": 11, "gridColor": "#f0f0ea"}
+        },
+        "color": {
+          "field": "gender",
+          "type": "nominal",
+          "scale": {
+            "domain": ["Male", "Female"],
+            "range": ["#1a6b3c", "#7dc4a0"]
+          },
+          "legend": {
+            "title": "Gender",
+            "orient": "top-right",
+            "labelFontSize": 11,
+            "titleFontSize": 11
+          }
+        },
+        "tooltip": [
+          {"field": "age_group", "title": "Age group"},
+          {"field": "gender", "title": "Gender"},
+          {"field": "participation_rate", "title": "Rate (%)", "format": ".1f"}
+        ]
+      }
+    },
+    {
+      "mark": {"type": "text", "baseline": "top", "dy": 6, "fontSize": 10},
+      "encoding": {
+        "x": {
+          "field": "age_group",
+          "type": "ordinal",
+          "sort": ["15-17","18-24","25-34","35-44","45-54","55-64","65+"]
+        },
+        "xOffset": {"field": "gender", "type": "nominal"},
+        "y": {
+          "field": "participation_rate",
+          "type": "quantitative",
+          "scale": {"domain": [0, 100]}
+        },
+        "text": {"field": "participation_rate", "format": ".1f"},
+        "color": {
+          "condition": {"test": "datum.gender === 'Male'", "value": "#ffffff"},
+          "value": "#1a4d2e"
+        }
+      }
+    }
+  ],
+  "config": {
+    "view": {"stroke": "transparent"},
+    "font": "Arial"
+  }
+}

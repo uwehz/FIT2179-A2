@@ -1,0 +1,88 @@
+{
+  "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
+  "width": 380,
+  "height": 320,
+  "data": {"url": "data/barriers_gender.csv"},
+  "transform": [
+    {"calculate": "(datum.male + datum.female) / 2", "as": "x_mid"},
+    {"calculate": "abs(datum.female - datum.male)", "as": "diff"}
+  ],
+  "layer": [
+    {
+      "mark": {"type": "rule", "strokeWidth": 2, "color": "#ddd"},
+      "encoding": {
+        "y": {
+          "field": "barrier",
+          "type": "ordinal",
+          "sort": {"field": "female", "order": "descending"}
+        },
+        "x": {"field": "male", "type": "quantitative"},
+        "x2": {"field": "female"}
+      }
+    },
+    {
+      "transform": [
+        {"fold": ["male", "female"], "as": ["gender", "value"]},
+        {
+          "calculate": "datum.gender === 'male' ? 'Males' : 'Females'",
+          "as": "gender_label"
+        }
+      ],
+      "mark": {"type": "point", "filled": true, "size": 100},
+      "encoding": {
+        "y": {
+          "field": "barrier",
+          "type": "ordinal",
+          "sort": {"field": "female", "order": "descending"},
+          "title": null,
+          "axis": {"labelFontSize": 11, "labelLimit": 220}
+        },
+        "x": {
+          "field": "value",
+          "type": "quantitative",
+          "title": "% of non-participants citing this barrier",
+          "axis": {
+            "titleFontSize": 11,
+            "labelFontSize": 10,
+            "gridColor": "#f0f0ea"
+          }
+        },
+        "color": {
+          "field": "gender_label",
+          "type": "nominal",
+          "scale": {
+            "domain": ["Males", "Females"],
+            "range": ["#1a6b3c", "#e63946"]
+          },
+          "legend": {
+            "title": null,
+            "labelFontSize": 11,
+            "orient": "top-right"
+          }
+        },
+        "tooltip": [
+          {"field": "barrier", "title": "Barrier"},
+          {"field": "gender_label", "title": "Gender"},
+          {"field": "value", "title": "(%)", "format": ".1f"}
+        ]
+      }
+    },
+    {
+      "mark": {"type": "text", "fontSize": 10, "dy": -10, "fontWeight": "bold", "color": "#555"},
+      "encoding": {
+        "y": {
+          "field": "barrier",
+          "type": "ordinal",
+          "sort": {"field": "female", "order": "descending"}
+        },
+        "x": {
+          "field": "x_mid",
+          "type": "quantitative",
+          "scale": {"domain": [0, 32]}
+        },
+        "text": {"field": "diff", "type": "quantitative", "format": ".1f"}
+      }
+    }
+  ],
+  "config": {"view": {"stroke": "transparent"}}
+}

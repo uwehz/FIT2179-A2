@@ -1,0 +1,88 @@
+{
+  "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
+  "width": 520,
+  "height": 320,
+  "data": {"url": "data/sports_bump.csv"},
+  "encoding": {
+    "x": {
+      "field": "age_group",
+      "type": "ordinal",
+      "sort": ["15-17","18-24","25-34","35-44","45-54","55-64","65+"],
+      "title": "Age group",
+      "axis": {"labelAngle": 0, "titleFontSize": 12, "labelFontSize": 11}
+    },
+    "y": {
+      "field": "rank",
+      "type": "ordinal",
+      "sort": "ascending",
+      "title": "Rank (1 = most popular)",
+      "axis": {
+        "titleFontSize": 12,
+        "labelFontSize": 11,
+        "values": [1,2,3,4,5,6,7,8,9,10]
+      }
+    },
+    "color": {
+      "field": "sport",
+      "type": "nominal",
+      "legend": {
+        "title": "Activity",
+        "labelFontSize": 10,
+        "titleFontSize": 11,
+        "orient": "right",
+        "offset": 45
+      }
+    }
+  },
+  "layer": [
+    {
+      "mark": {
+        "type": "line",
+        "point": true,
+        "strokeWidth": 2.5
+      }
+    },
+    {
+      "mark": {
+        "type": "point",
+        "filled": true,
+        "size": 80
+      },
+      "encoding": {
+        "tooltip": [
+          {"field": "sport", "title": "Activity"},
+          {"field": "age_group", "title": "Age group"},
+          {"field": "rank", "title": "Rank"}
+        ]
+      }
+    },
+    {
+      "transform": [
+        {"filter": "datum.sport == 'Walking (Recreational)' && datum.age_group == '65+'"}
+      ],
+      "mark": {
+        "type": "text",
+        "align": "left",
+        "dx": 6,
+        "fontSize": 10,
+        "fontWeight": "bold",
+        "color": "#1a6b3c"
+      },
+      "encoding": {
+        "x": {"field": "age_group", "type": "ordinal", "sort": ["15-17","18-24","25-34","35-44","45-54","55-64","65+"]},
+        "y": {"field": "rank", "type": "ordinal", "sort": "descending"},
+        "text": {"value": "Walking #1"}
+      }
+    }
+  ],
+  "config": {
+    "view": {"stroke": "transparent"},
+    "range": {
+      "category": [
+        "#1a6b3c","#52b788","#f4a261","#e63946",
+        "#457b9d","#a8dadc","#264653","#e9c46a",
+        "#6d6875","#b5838d"
+      ]
+    }
+  }
+}

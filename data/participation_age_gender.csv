@@ -1,0 +1,15 @@
+age_group,gender,participation_rate
+15-17,Male,85.9
+15-17,Female,89.6
+18-24,Male,88.1
+18-24,Female,89.5
+25-34,Male,89.4
+25-34,Female,89.5
+35-44,Male,89.1
+35-44,Female,88.3
+45-54,Male,90.3
+45-54,Female,88.3
+55-64,Male,88.0
+55-64,Female,87.0
+65+,Male,77.9
+65+,Female,73.5

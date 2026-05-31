@@ -1,0 +1,76 @@
+{
+  "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
+  "width": 380,
+  "height": 280,
+  "data": {"url": "data/organised_vs_informal.csv"},
+  "transform": [
+    {"fold": ["organised", "informal"], "as": ["type", "percentage"]},
+    {"joinaggregate": [{"op": "sum", "field": "percentage", "as": "total"}], "groupby": ["age_group"]},
+    {"calculate": "datum.percentage / datum.total", "as": "norm_pct"},
+    {"calculate": "datum.type === 'organised' ? 0 : 1", "as": "type_order"},
+    {
+      "window": [{"op": "sum", "field": "norm_pct", "as": "cum_norm"}],
+      "groupby": ["age_group"],
+      "frame": [null, 0],
+      "sort": [{"field": "type_order", "order": "ascending"}]
+    },
+    {"calculate": "datum.cum_norm - datum.norm_pct / 2", "as": "text_y"}
+  ],
+  "layer": [
+    {
+      "mark": "bar",
+      "encoding": {
+        "x": {
+          "field": "age_group",
+          "type": "ordinal",
+          "sort": ["15-17","18-24","25-34","35-44","45-54","55-64","65+"],
+          "title": "Age group",
+          "axis": {"labelAngle": 0, "titleFontSize": 12, "labelFontSize": 11}
+        },
+        "y": {
+          "field": "percentage",
+          "type": "quantitative",
+          "stack": "normalize",
+          "title": "Proportion (%)",
+          "axis": {"format": "%", "titleFontSize": 12, "labelFontSize": 11}
+        },
+        "color": {
+          "field": "type",
+          "type": "nominal",
+          "scale": {
+            "domain": ["organised", "informal"],
+            "range": ["#1a6b3c", "#a8dadc"]
+          },
+          "legend": {
+            "title": "Participation type",
+            "labelFontSize": 11,
+            "titleFontSize": 11,
+            "labelExpr": "datum.label === 'organised' ? 'Organised' : 'Informal'"
+          }
+        },
+        "tooltip": [
+          {"field": "age_group", "title": "Age group"},
+          {"field": "type", "title": "Type"},
+          {"field": "percentage", "title": "(%)", "format": ".1f"}
+        ]
+      }
+    },
+    {
+      "mark": {"type": "text", "fontSize": 10, "fontWeight": "bold"},
+      "encoding": {
+        "x": {
+          "field": "age_group",
+          "type": "ordinal",
+          "sort": ["15-17","18-24","25-34","35-44","45-54","55-64","65+"]
+        },
+        "y": {"field": "text_y", "type": "quantitative"},
+        "text": {"field": "norm_pct", "format": ".0%"},
+        "color": {
+          "condition": {"test": "datum.type === 'organised'", "value": "#ffffff"},
+          "value": "#1a4d2e"
+        }
+      }
+    }
+  ],
+  "config": {"view": {"stroke": "transparent"}}
+}

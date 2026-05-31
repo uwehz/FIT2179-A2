@@ -1,0 +1,72 @@
+{
+  "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
+  "width": 700,
+  "height": 500,
+  "projection": {
+    "type": "mercator"
+  },
+  "layer": [
+    {
+      "data": {
+        "url": "data/au_states.json",
+        "format": {"type": "topojson", "feature": "au_states"}
+      },
+      "transform": [
+        {
+          "lookup": "properties.STATE_NAME",
+          "from": {
+            "data": {"url": "data/participation_states.csv"},
+            "key": "state",
+            "fields": ["participation_2025", "participation_2024"]
+          }
+        }
+      ],
+      "mark": {"type": "geoshape", "stroke": "#ffffff", "strokeWidth": 1.5},
+      "encoding": {
+        "color": {
+          "field": "participation_2025",
+          "type": "quantitative",
+          "title": "Participation rate (%)",
+          "scale": {"domain": [83, 93], "range": ["#c7e9c0", "#006d2c"]},
+          "legend": {
+            "orient": "bottom-right",
+            "titleFontSize": 11,
+            "labelFontSize": 10,
+            "gradientLength": 120
+          }
+        },
+        "tooltip": [
+          {"field": "properties.STATE_NAME", "title": "State / Territory"},
+          {"field": "participation_2025", "title": "2025 (%)", "format": ".1f"},
+          {"field": "participation_2024", "title": "2024 (%)", "format": ".1f"}
+        ]
+      }
+    },
+    {
+      "data": {
+        "values": [
+          {"label": "WA: 87%",  "lon": 121.5, "lat": -26.0},
+          {"label": "SA: 84%",  "lon": 135.5, "lat": -30.0},
+          {"label": "NT: 89%",  "lon": 133.5, "lat": -19.5},
+          {"label": "QLD: 84%", "lon": 144.5, "lat": -22.5},
+          {"label": "NSW: 85%", "lon": 147.0, "lat": -32.0},
+          {"label": "VIC: 88%", "lon": 144.5, "lat": -37.0},
+          {"label": "TAS: 87%", "lon": 146.5, "lat": -42.5},
+          {"label": "ACT: 92%", "lon": 149.1, "lat": -35.5}
+        ]
+      },
+      "mark": {
+        "type": "text",
+        "fontSize": 11,
+        "fontWeight": "bold",
+        "color": "#0d2e1c"
+      },
+      "encoding": {
+        "longitude": {"field": "lon", "type": "quantitative"},
+        "latitude": {"field": "lat", "type": "quantitative"},
+        "text": {"field": "label", "type": "nominal"}
+      }
+    }
+  ],
+  "config": {"view": {"stroke": "transparent"}}
+}

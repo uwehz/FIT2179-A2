@@ -1,0 +1,181 @@
+/* ── Reset & Base ── */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+body {
+  font-family: 'Source Sans 3', 'Arial', sans-serif;
+  background: #fafaf8;
+  color: #1a1a1a;
+  line-height: 1.7;
+}
+
+/* ── Hero ── */
+.hero {
+  max-width: 860px;
+  margin: 60px auto 20px;
+  padding: 0 24px;
+  border-left: 4px solid #1a6b3c;
+}
+.hero-title {
+  font-size: 2.6rem;
+  font-weight: 800;
+  line-height: 1.2;
+  color: #0d2e1c;
+  margin-bottom: 14px;
+  font-family: 'Playfair Display', 'Georgia', serif;
+}
+.hero-sub {
+  font-size: 1.05rem;
+  color: #444;
+  max-width: 680px;
+  margin-bottom: 12px;
+  font-weight: 300;
+}
+.hero-meta {
+  font-size: 0.78rem;
+  color: #888;
+  letter-spacing: 0.02em;
+}
+
+/* ── Sections ── */
+.vis-section {
+  max-width: 1000px;
+  margin: 56px auto;
+  padding: 0 24px;
+}
+
+.section-header {
+  display: flex;
+  align-items: flex-start;
+  gap: 20px;
+  margin-bottom: 32px;
+  padding-bottom: 16px;
+  border-bottom: 1px solid #e0e0d8;
+}
+.section-num {
+  font-size: 1.6rem;
+  font-weight: 700;
+  color: #1a6b3c;
+  letter-spacing: 0.08em;
+  min-width: 28px;
+  font-family: 'Source Sans 3', sans-serif;
+}
+.section-title {
+  font-size: 1.6rem;
+  font-weight: 700;
+  color: #0d2e1c;
+  margin-bottom: 6px;
+  font-family: 'Playfair Display', serif;
+}
+.section-desc {
+  font-size: 0.95rem;
+  color: #555;
+  font-weight: 300;
+}
+
+/* ── Stat cards ── */
+.stat-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 16px;
+  margin-bottom: 40px;
+}
+.stat-card {
+  background: #fff;
+  border: 1px solid #e8e8e0;
+  border-top: 3px solid #1a6b3c;
+  border-radius: 4px;
+  padding: 18px 16px;
+}
+.stat-num {
+  font-size: 2rem;
+  font-weight: 700;
+  color: #0d2e1c;
+  font-family: 'Playfair Display', serif;
+  line-height: 1;
+  margin-bottom: 8px;
+}
+.stat-label {
+  font-size: 0.8rem;
+  color: #666;
+  line-height: 1.4;
+  font-weight: 400;
+}
+
+/* ── Chart centering ── */
+#chart_age_gender,
+#chart_map,
+#chart_gap,
+#chart_bump,
+#chart_organised,
+#chart_diverging,
+#chart_trend,
+#chart_motivations,
+#chart_barriers {
+  display: flex;
+  justify-content: center;
+}
+
+#chart_heatmap {
+  display: flex;
+  justify-content: flex-start;
+  padding-left: 130px;
+}
+
+/* ── Chart wrappers ── */
+.chart-wrap {
+  background: #fff;
+  border: 1px solid #e8e8e0;
+  border-radius: 4px;
+  padding: 24px 24px 16px;
+  margin-bottom: 20px;
+}
+.chart-title {
+  font-size: 1rem;
+  font-weight: 600;
+  color: #1a1a1a;
+  margin-bottom: 6px;
+  margin-left: 80px;
+  font-family: 'Source Sans 3', sans-serif;
+}
+.chart-desc {
+  font-size: 0.88rem;
+  color: #666;
+  margin-bottom: 16px;
+  margin-left: 80px;
+  margin-right: 80px;
+  font-family: 'Source Sans 3', sans-serif;
+  line-height: 1.55;
+  font-weight: 300;
+}
+.chart-source {
+  font-size: 0.72rem;
+  color: #999;
+  margin-top: 12px;
+  margin-left: 80px;
+}
+
+/* ── Two column layout ── */
+.two-col {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 20px;
+}
+
+/* ── Footer ── */
+.site-footer {
+  max-width: 1000px;
+  margin: 60px auto 40px;
+  padding: 24px 24px 0;
+  border-top: 1px solid #e0e0d8;
+  font-size: 0.78rem;
+  color: #999;
+  line-height: 2;
+}
+.site-footer a {
+  color: #1a6b3c;
+  text-decoration: none;
+}
+.site-footer a:hover { text-decoration: underline; }
+
+/* ── Vega-Embed toolbar ── */
+.vega-actions { display: none; }

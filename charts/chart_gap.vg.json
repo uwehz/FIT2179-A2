@@ -1,0 +1,110 @@
+{
+  "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
+  "width": 520,
+  "height": 320,
+  "data": {"url": "data/participation_vs_guidelines.csv"},
+  "layer": [
+    {
+      "mark": {"type": "rule", "strokeWidth": 2, "color": "#ddd"},
+      "encoding": {
+        "x": {
+          "field": "age_group",
+          "type": "ordinal",
+          "sort": {"field": "age_order"}
+        },
+        "y": {"field": "guidelines_met", "type": "quantitative"},
+        "y2": {"field": "participation_rate"}
+      }
+    },
+    {
+      "transform": [
+        {"fold": ["participation_rate", "guidelines_met"], "as": ["metric", "value"]},
+        {
+          "calculate": "datum.metric === 'participation_rate' ? 'Participates in sport' : 'Meets activity guidelines'",
+          "as": "metric_label"
+        }
+      ],
+      "mark": {"type": "point", "filled": true, "size": 130},
+      "encoding": {
+        "x": {
+          "field": "age_group",
+          "type": "ordinal",
+          "sort": {"field": "age_order"},
+          "title": "Age group",
+          "axis": {"labelAngle": 0, "titleFontSize": 12, "labelFontSize": 11}
+        },
+        "y": {
+          "field": "value",
+          "type": "quantitative",
+          "title": "Rate (%)",
+          "scale": {"domain": [0, 100]},
+          "axis": {
+            "titleFontSize": 12,
+            "labelFontSize": 11,
+            "gridColor": "#f0f0ea"
+          }
+        },
+        "color": {
+          "field": "metric_label",
+          "type": "nominal",
+          "scale": {
+            "domain": ["Participates in sport", "Meets activity guidelines"],
+            "range": ["#1a6b3c", "#e63946"]
+          },
+          "legend": {
+            "title": null,
+            "labelFontSize": 11,
+            "orient": "none",
+            "legendX": 350,
+            "legendY": 5
+          }
+        },
+        "tooltip": [
+          {"field": "age_group", "title": "Age group"},
+          {"field": "metric_label", "title": "Metric"},
+          {"field": "value", "title": "Rate (%)", "format": ".1f"}
+        ]
+      }
+    }
+    ,{
+      "mark": {
+        "type": "text",
+        "fontSize": 10,
+        "fontWeight": "bold",
+        "color": "#e63946",
+        "align": "left",
+        "dx": 8
+      },
+      "encoding": {
+        "x": {"datum": "45-54", "type": "ordinal"},
+        "y": {"datum": 53, "type": "quantitative"},
+        "text": {"value": "← 72% gap"}
+      }
+    },
+    {
+      "mark": {"type": "rule", "strokeDash": [6, 3], "strokeWidth": 1.5, "color": "#1a6b3c"},
+      "encoding": {"y": {"datum": 84, "type": "quantitative"}}
+    },
+    {
+      "mark": {"type": "text", "align": "right", "dx": -6, "dy": -7, "fontSize": 10, "fontWeight": "bold", "color": "#1a6b3c"},
+      "encoding": {
+        "x": {"value": 520},
+        "y": {"datum": 84, "type": "quantitative"},
+        "text": {"value": "84% participate"}
+      }
+    },
+    {
+      "mark": {"type": "rule", "strokeDash": [6, 3], "strokeWidth": 1.5, "color": "#e63946"},
+      "encoding": {"y": {"datum": 20, "type": "quantitative"}}
+    },
+    {
+      "mark": {"type": "text", "align": "right", "dx": -6, "dy": -7, "fontSize": 10, "fontWeight": "bold", "color": "#e63946"},
+      "encoding": {
+        "x": {"value": 520},
+        "y": {"datum": 20, "type": "quantitative"},
+        "text": {"value": "~20% meet guidelines"}
+      }
+    }
+  ],
+  "config": {"view": {"stroke": "transparent"}}
+}

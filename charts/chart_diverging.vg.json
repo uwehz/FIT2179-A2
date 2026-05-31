@@ -1,0 +1,74 @@
+{
+  "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
+  "width": 360,
+  "height": 280,
+  "data": {"url": "data/guidelines_by_age.csv"},
+  "transform": [
+    {"fold": ["met", "not_met"], "as": ["metric", "value"]},
+    {"calculate": "datum.metric === 'met' ? 'Met guidelines' : 'Did not meet'", "as": "label"},
+    {"calculate": "datum.value / 2", "as": "x_mid"},
+    {"calculate": "abs(datum.value)", "as": "abs_value"}
+  ],
+  "layer": [
+    {
+      "mark": "bar",
+      "encoding": {
+        "y": {
+          "field": "age_group",
+          "type": "ordinal",
+          "sort": {"field": "age_order"},
+          "title": null,
+          "axis": {"labelFontSize": 11}
+        },
+        "x": {
+          "field": "value",
+          "type": "quantitative",
+          "title": "← Did not meet  |  Met guidelines →",
+          "axis": {
+            "titleFontSize": 10,
+            "titleX": 275,
+            "titleAlign": "center",
+            "labelFontSize": 10,
+            "format": "d",
+            "labelExpr": "abs(datum.value) + '%'"
+          }
+        },
+        "color": {
+          "field": "label",
+          "type": "nominal",
+          "scale": {
+            "domain": ["Did not meet", "Met guidelines"],
+            "range": ["#e0e0d8", "#1a6b3c"]
+          },
+          "legend": {
+            "title": null,
+            "labelFontSize": 11,
+            "orient": "bottom"
+          }
+        },
+        "tooltip": [
+          {"field": "age_group", "title": "Age group"},
+          {"field": "label", "title": "Status"},
+          {"field": "value", "title": "(%)", "format": ".1f"}
+        ]
+      }
+    },
+    {
+      "mark": {"type": "text", "fontSize": 9},
+      "encoding": {
+        "y": {
+          "field": "age_group",
+          "type": "ordinal",
+          "sort": {"field": "age_order"}
+        },
+        "x": {"field": "x_mid", "type": "quantitative"},
+        "text": {"field": "abs_value", "format": ".1f"},
+        "color": {
+          "condition": {"test": "datum.label === 'Met guidelines'", "value": "#ffffff"},
+          "value": "#666666"
+        }
+      }
+    }
+  ],
+  "config": {"view": {"stroke": "transparent"}}
+}
